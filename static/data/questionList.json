@@ -2,26 +2,26 @@
     {
         "id": 11,
         "question": "Take away Pho?",
-        "yesVotes": 0,
-        "noVotes": 0
+        "yesVotes": 84,
+        "noVotes": 24
     },
     {
         "id": 12,
         "question": "Cracking open a cold one with the boys?",
-        "yesVotes": 0,
-        "noVotes": 0
+        "yesVotes": 156,
+        "noVotes": 143
     },
     {
         "id": 13,
         "question": "Digestive biscuits with chocolate bottoms?",
-        "yesVotes": 0,
-        "noVotes": 0
+        "yesVotes": 54,
+        "noVotes": 94
     },
     {
         "id": 14,
         "question": "Boardshorts with a cargo pocket?",
-        "yesVotes": 0,
-        "noVotes": 0
+        "yesVotes": 73,
+        "noVotes": 11
     }
 ]
 

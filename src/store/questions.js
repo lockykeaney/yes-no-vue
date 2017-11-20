@@ -1,19 +1,28 @@
 const state = {
-    questionList: []
+    questionList: [],
+    questionsAnswered: []
 }
 
 const getters = {
-    getQuestions: state => state.questionList
+    getQuestions: state => state.questionList,
+    getQuestionsAnswered: state => state.questionsAnswered
 }
 
 const actions = {
     voteNo ({ commit, state }, id) {
         commit('VOTE_NO', id)
-        console.log(id)
     },
     voteYes ({ commit, state }, id) {
         commit('VOTE_YES', id)
-        console.log(id)
+    },
+    getAnswered ({ commit, state }) {
+        commit('GET_ANSWERED')
+    },
+    answerQuestion ({ commit, state }, id) {
+        commit('ANSWER_QUESTION', id)
+    },
+    createQuestion ({ commit, state }, question) {
+        commit('CREATE_QUESTION', question)
     },
     getQuestionData ({ commit, state }) {
         const questionData = require('../../static/data/questionList.json')
@@ -30,6 +39,22 @@ const mutations = {
     ['VOTE_NO'] (state, id) {
         const item = state.questionList.find(item => item.id === id)
         item.noVotes++
+    },
+    ['GET_ANSWERED'] (state, questionsAnswered) {
+        state.questionsAnswered = questionsAnswered
+    },
+    ['ANSWER_QUESTION'] (state, id) {
+        const item = state.questionList.find(item => item.id === id)
+        state.questionsAnswered.push(item.id)
+    },
+    ['CREATE_QUESTION'] (state, question) {
+        let newQuestion = {
+            id: 11 + 1,
+            question: question,
+            yesVotes: 0,
+            noVotes: 0
+        }
+        state.questionList.push(newQuestion)
     },
     ['STORE_QUESTION_DATA'] (state, questionData) {
         state.questionList = questionData
