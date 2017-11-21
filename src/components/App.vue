@@ -28,6 +28,10 @@ export default {
             this.fixFocusableSvgs()
         })
 
+        // axios.get('url')
+        //     .then((response) => {
+        //         this.$store.dispatch('getQuestionData', response.data.data)
+        //     })
         this.$store.dispatch('getQuestionData')
     },
     methods: {
