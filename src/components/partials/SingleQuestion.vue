@@ -7,11 +7,13 @@
         </div>
         <div class="vote-box">
             <p :class="{ '-active': isAnswered }"> {{ item.yesVotes }} </p>
-            <button @click="yesHandler(item)">Yes</button>
+            <whirl-button @click.native="yesHandler(item)"
+                :label="'Yes'"/>
         </div>
         <div class="vote-box">
             <p :class="{ '-active': isAnswered }"> {{ item.noVotes }} </p>
-            <button @click="noHandler(item)">No</button>
+            <whirl-button @click.native="noHandler(item)"
+                :label="'No'"/>
         </div>
     </div>
 </template>
@@ -19,6 +21,9 @@
 <script>
 export default {
     name: 'single-question',
+    components: {
+        'whirl-button': require('@/components/partials/WhirlButton').default
+    },
     props: [
         'item',
         'questionsAnswered'
@@ -95,10 +100,11 @@ p {
 
 .single-question {
     color: black;
-    outline: 1px solid black;
+    // outline: 1px solid black;
     height: auto;
     text-align: center;
     margin-bottom: 1rem;
+    font-size: 1.25rem;
     
     .question {
         width: 100%; 
@@ -116,11 +122,11 @@ p {
             }
         }
 
-        button {
-            height: auto;
-            width: 4rem;
-            background-color: plum;
-        }
+        // button {
+        //     height: auto;
+        //     width: 100%;
+        //     background-color: plum;
+        // }
     }
 
     .percent-bar {

@@ -1,23 +1,32 @@
 <template>
     <div :class="this.$options.name">
-        <content-area scrollbar="true" valign="middle">
-            <h1 class="_heading-m" v-t="'dashboard.title'"></h1>
-            <div v-for="(item, index) in questionList"
-                :key="index">
-                <single-question 
-                    :item="item"
-                    :questionsAnswered="questionsAnswered">
-                </single-question>
-            </div>
 
-            <!-- <single-question 
+        <on-boarding v-if="!isOnboardingComplete"></on-boarding>
+        
+        <content-area valign="middle">
+            <!-- <div class="container">
+                <div class="-inner" v-for="(item, index) in questionList"
+                    :key="index">
+                    <single-question
+                        :item="item"
+                        :questionsAnswered="questionsAnswered">
+                    </single-question>
+                </div>
+            </div> -->
+            <single-question 
                 :item="currentQuestion"
                 :questionsAnswered="questionsAnswered">
             </single-question>
-            <button @click="getRandom">Another</button> -->
+            <button @click="getRandom">Another</button>
 
-            <create-question></create-question>
+        <button
+            class="submit-button"
+            @click="openSubmit">
+            Submit a Question
+        </button>
         </content-area>
+
+        <create-question :class="{ '-hidden': !isSubmitOpen }"></create-question>
     </div>
 </template>
 
@@ -26,7 +35,8 @@ export default {
     name: 'dashboard',
     components: {
         'single-question': require('@/components/partials/SingleQuestion').default,
-        'create-question': require('@/components/partials/CreateQuestion').default
+        'create-question': require('@/components/partials/CreateQuestion').default,
+        'on-boarding': require('@/components/partials/OnBoarding').default
     },
     data () {
         return {
@@ -39,6 +49,12 @@ export default {
         },
         questionsAnswered () {
             return this.$store.getters.getQuestionsAnswered
+        },
+        isOnboardingComplete () {
+            return this.$store.getters.isOnboardingComplete
+        },
+        isSubmitOpen () {
+            return this.$store.getters.isSubmitOpen
         }
     },
     methods: {
@@ -48,6 +64,9 @@ export default {
             if (!this.questionsAnswered.includes(value.id)) {
                 this.currentQuestion = value
             }
+        },
+        openSubmit () {
+            this.$store.dispatch('toggleSubmit')
         }
     },
     activated () {
@@ -61,5 +80,18 @@ export default {
 
 .dashboard {
     background: transparent;
+    &-header {
+        margin-top: 10vh;
+    }
+}
+
+.submit-button {
+    border: 0;
+    outline: 0;
+    height: 5vh;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
 }
 </style>
