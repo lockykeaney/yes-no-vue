@@ -7,12 +7,18 @@
         </div>
         <div class="vote-box">
             <p :class="{ '-active': isAnswered }"> {{ item.yesVotes }} </p>
-            <whirl-button @click.native="yesHandler(item)"
+            <whirl-button 
+                class="button"
+                :disabled="isAnswered"
+                @click.native="clickHandler(item, 'yes')"
                 :label="'Yes'"/>
         </div>
         <div class="vote-box">
             <p :class="{ '-active': isAnswered }"> {{ item.noVotes }} </p>
-            <whirl-button @click.native="noHandler(item)"
+            <whirl-button 
+                class="button"
+                :disabled="isAnswered"
+                @click.native="clickHandler(item, 'no')"
                 :label="'No'"/>
         </div>
     </div>
@@ -35,19 +41,18 @@ export default {
         }
     },
     methods: {
-        yesHandler (item) {
+        clickHandler (item, value) {
+            let id = item.id
             this.generatePercentBar(item)
-            this.upvoteYes(item.id)
-        },
-        noHandler (item) {
-            this.generatePercentBar(item)
-            this.upvoteNo(item.id)
-        },
-        upvoteYes (id) {
-            return this.$store.dispatch('voteYes', id) && this.$store.dispatch('answerQuestion', id)
-        },
-        upvoteNo (id) {
-            return this.$store.dispatch('voteNo', id) && this.$store.dispatch('answerQuestion', id)
+            switch (value) {
+                case 'yes':
+                    this.$store.dispatch('voteYes', id)
+                    break
+                case 'no':
+                    this.$store.dispatch('voteNo', id)
+                    break
+            }
+            this.$store.dispatch('answerQuestion', id)
         },
         generatePercentBar (item) {
             let total = item.yesVotes + item.noVotes
@@ -64,6 +69,11 @@ export default {
     computed: {
         isAnswered () {
             return this.questionsAnswered.includes(this.item.id)
+        }
+    },
+    watch: {
+        isAnswered: function () {
+            console.log(this)
         }
     },
     filters: {
@@ -93,6 +103,7 @@ export default {
 }
 
 * { box-sizing: border-box; }
+
 p {
     margin: 0;
     padding: 0;
@@ -100,8 +111,10 @@ p {
 
 .single-question {
     color: black;
-    // outline: 1px solid black;
-    height: auto;
+    height: 60%;
+    float: left;
+    width: 100%;
+    outline: 1px solid red;
     text-align: center;
     margin-bottom: 1rem;
     font-size: 1.25rem;
@@ -122,11 +135,6 @@ p {
             }
         }
 
-        // button {
-        //     height: auto;
-        //     width: 100%;
-        //     background-color: plum;
-        // }
     }
 
     .percent-bar {

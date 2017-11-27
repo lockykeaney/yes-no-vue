@@ -7,7 +7,7 @@
     "scripts": {
         "dev": "node build/dev-server.js",
         "dev:autofix": "ESLINT_FIX=true node build/dev-server.js",
-        "start": "yarn run dev",
+        "start": "webpack-dashboard -- yarn run dev",
         "build": "node build/build.js",
         "build:staging": "APP_ENV=staging node build/build.js",
         "build:production": "APP_ENV=production node build/build.js"
@@ -34,6 +34,7 @@
         "vue-router": "^3.0.1",
         "vuex": "^3.0.0",
         "vuex-router-sync": "^5.0.0",
+        "webpack-dashboard": "^1.0.2",
         "yaml-loader": "^0.5.0"
     },
     "devDependencies": {

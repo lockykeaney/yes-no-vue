@@ -17,7 +17,7 @@ export default {
     props: ['label'],
     methods: {
         onClick () {
-            this.$refs.whirlButton.classList.toggle('-pressed')
+            this.$refs.whirlButton.classList.add('-pressed')
         }
     }
 }
@@ -101,7 +101,7 @@ $whirlTiming: .15s;
     // }
 
     &.-pressed {
-        box-shadow: 0 1px 2px rgba(0,0,0,0.16), 0 1px 2px rgba(0,0,0,0.23);
+        // box-shadow: 0 1px 2px rgba(0,0,0,0.16), 0 1px 2px rgba(0,0,0,0.23);
         .-bottom { transform: scale(1); }
         .-right { transform: scale(1); transition-delay: $whirlTiming; }
         .-top { transform: scale(1); transition-delay: calc(#{$whirlTiming} * 2); }

@@ -2,24 +2,25 @@
     <div :class="this.$options.name">
 
         <on-boarding v-if="!isOnboardingComplete"></on-boarding>
-        
+        <all-answers :questionsAnswered="questionsAnswered"></all-answers>
+
         <content-area valign="middle">
-            <!-- <div class="container">
-                <div class="-inner" v-for="(item, index) in questionList"
-                    :key="index">
-                    <single-question
-                        :item="item"
-                        :questionsAnswered="questionsAnswered">
-                    </single-question>
-                </div>
-            </div> -->
-            <single-question 
+            <div class="container">
+                <single-question class="-inner" v-for="(item, index) in questionList"
+                    v-if="currentQuestion"
+                    :key="index"
+                    :item="item"
+                    :questionsAnswered="questionsAnswered">
+                </single-question>
+            </div>
+            <!-- <single-question 
                 :item="currentQuestion"
                 :questionsAnswered="questionsAnswered">
-            </single-question>
+            </single-question> -->
             <button @click="getRandom">Another</button>
 
         <button
+            ref="submitButton"
             class="submit-button"
             @click="openSubmit">
             Submit a Question
@@ -36,7 +37,8 @@ export default {
     components: {
         'single-question': require('@/components/partials/SingleQuestion').default,
         'create-question': require('@/components/partials/CreateQuestion').default,
-        'on-boarding': require('@/components/partials/OnBoarding').default
+        'on-boarding': require('@/components/partials/OnBoarding').default,
+        'all-answers': require('@/components/partials/AllAnswers').default
     },
     data () {
         return {
@@ -83,6 +85,9 @@ export default {
     &-header {
         margin-top: 10vh;
     }
+}
+.container {
+    width: auto;
 }
 
 .submit-button {
