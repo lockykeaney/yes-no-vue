@@ -47,9 +47,11 @@ export default {
             switch (value) {
                 case 'yes':
                     this.$store.dispatch('voteYes', id)
+                    console.log(value)
                     break
                 case 'no':
                     this.$store.dispatch('voteNo', id)
+                    console.log(value)
                     break
             }
             this.$store.dispatch('answerQuestion', id)
@@ -73,7 +75,7 @@ export default {
     },
     watch: {
         isAnswered: function () {
-            console.log(this)
+            // console.log(this)
         }
     },
     filters: {
@@ -111,8 +113,7 @@ p {
 
 .single-question {
     color: black;
-    height: 60%;
-    float: left;
+    height: 10rem;
     width: 100%;
     outline: 1px solid red;
     text-align: center;
@@ -120,7 +121,8 @@ p {
     font-size: 1.25rem;
     
     .question {
-        width: 100%; 
+        width: 100%;
+        height: 4rem;
     }
 
     .vote-box {

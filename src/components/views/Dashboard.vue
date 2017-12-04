@@ -1,15 +1,16 @@
 <template>
     <div :class="this.$options.name">
 
-        <on-boarding v-if="!isOnboardingComplete"></on-boarding>
+        <!-- <on-boarding v-if="!isOnboardingComplete"></on-boarding> -->
         <all-answers :questionsAnswered="questionsAnswered"></all-answers>
 
         <content-area valign="middle">
             <div class="container">
-                <single-question class="-inner" v-for="(item, index) in questionList"
-                    v-if="currentQuestion"
+                <single-question class="-inner" 
+                    v-for="(item, index) in questionList"
                     :key="index"
                     :item="item"
+                    :func="moveAnswer"
                     :questionsAnswered="questionsAnswered">
                 </single-question>
             </div>
@@ -69,6 +70,17 @@ export default {
         },
         openSubmit () {
             this.$store.dispatch('toggleSubmit')
+        },
+        moveAnswer (item) {
+            this.questionList.splice(item)
+            this.questionsAnswered.push(item)
+        }
+    },
+    watch: {
+        isAnswered: function () {
+            if (this.questionsAnswered.includes(this.currentQuestion.id)) {
+                console.log('and yes')
+            }
         }
     },
     activated () {
@@ -82,13 +94,33 @@ export default {
 
 .dashboard {
     background: transparent;
+    overflow-y: scroll;
     &-header {
         margin-top: 10vh;
     }
 }
-.container {
-    width: auto;
+.-answered {
+    background-color: rgba(0,0,0,0.12);
 }
+// .container {
+//     width: auto;
+//     position: relative;
+//     transform: translateY(-50%);
+
+//     .-inner {
+//         transition: all .5s ease-in-out;
+//         position: absolute;
+//         height: auto;
+//         width: 100%;
+//         top: 0;
+//         left: 0;
+//         opacity: 0;
+
+//         &.-active {
+//             opacity: 1;
+//         }
+//     }
+// }
 
 .submit-button {
     border: 0;
