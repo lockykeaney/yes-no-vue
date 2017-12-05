@@ -1,5 +1,5 @@
 <template>
-    <div class="single-question">
+    <div class="single-question" :class="{ '-answered': isAnswered }">
         <p class="question"> {{ item.question }} </p>
         <div class="percent-bar" ref="percentBar">
             <div class="yes-bar" :style="{ transform: `scaleX(${yesPercent})`}"></div>
@@ -32,7 +32,8 @@ export default {
     },
     props: [
         'item',
-        'questionsAnswered'
+        'questionsAnswered',
+        'currentQuestion'
     ],
     data () {
         return {
@@ -71,11 +72,16 @@ export default {
     computed: {
         isAnswered () {
             return this.questionsAnswered.includes(this.item.id)
+        },
+        isCurrent () {
+            if (this.currentQuestion.id === this.item.id) {
+                return this.isCurrentQuestion
+            }
         }
     },
     watch: {
         isAnswered: function () {
-            // console.log(this)
+            console.log(this)
         }
     },
     filters: {
@@ -91,6 +97,8 @@ export default {
     },
     mounted () {
         this.resetPercent()
+        console.log(this.currentQuestion.id)
+        console.log(this.item.id)
     }
 }
 </script>
@@ -113,12 +121,20 @@ p {
 
 .single-question {
     color: black;
-    height: 10rem;
+    height: auto;
     width: 100%;
-    outline: 1px solid red;
     text-align: center;
     margin-bottom: 1rem;
     font-size: 1.25rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+
+    .-current {
+        opacity: 1;
+    }
     
     .question {
         width: 100%;
@@ -159,6 +175,7 @@ p {
     }
 }
 
-
-
+.-answered {
+    background-color: rgba(0,0,0,0.12);
+}
 </style>

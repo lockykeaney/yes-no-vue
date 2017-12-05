@@ -5,27 +5,28 @@
         <all-answers :questionsAnswered="questionsAnswered"></all-answers>
 
         <content-area valign="middle">
+
             <div class="container">
+
                 <single-question class="-inner" 
                     v-for="(item, index) in questionList"
                     :key="index"
                     :item="item"
-                    :func="moveAnswer"
-                    :questionsAnswered="questionsAnswered">
+                    :questionsAnswered="questionsAnswered"
+                    :currentQuestion="currentQuestion">
                 </single-question>
+
             </div>
-            <!-- <single-question 
-                :item="currentQuestion"
-                :questionsAnswered="questionsAnswered">
-            </single-question> -->
+
             <button @click="getRandom">Another</button>
 
-        <button
-            ref="submitButton"
-            class="submit-button"
-            @click="openSubmit">
-            Submit a Question
-        </button>
+            <button
+                ref="submitButton"
+                class="submit-button"
+                @click="openSubmit">
+                Submit a Question
+            </button>
+
         </content-area>
 
         <create-question :class="{ '-hidden': !isSubmitOpen }"></create-question>
@@ -99,28 +100,13 @@ export default {
         margin-top: 10vh;
     }
 }
-.-answered {
-    background-color: rgba(0,0,0,0.12);
+
+.container {
+    position: relative;
+    outline: 1px solid black;
+    height: 50vh;
+    overflow: hidden;
 }
-// .container {
-//     width: auto;
-//     position: relative;
-//     transform: translateY(-50%);
-
-//     .-inner {
-//         transition: all .5s ease-in-out;
-//         position: absolute;
-//         height: auto;
-//         width: 100%;
-//         top: 0;
-//         left: 0;
-//         opacity: 0;
-
-//         &.-active {
-//             opacity: 1;
-//         }
-//     }
-// }
 
 .submit-button {
     border: 0;
