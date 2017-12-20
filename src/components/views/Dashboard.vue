@@ -1,47 +1,48 @@
 <template>
     <div :class="this.$options.name">
 
-        <!-- <transition name="slider-slide-out">
+        <transition name="slider-slide-out">
             <on-boarding v-if="!isOnboardingComplete"></on-boarding>
-        </transition> -->
-        
+        </transition>
+
         <div class="open-answers"
             :class="{ '-hidden': isMenuOpen }"
             @click="openMenu">
         </div>
+
         <all-answers 
             :questionsAnswered="questionsAnswered"
             :class="{ '-hidden': !isMenuOpen }"></all-answers>
+        
 
-        <transition name="slider-slide-rtl">
-            <content-area valign="middle">
+        <content-area valign="middle" class="main-wrapper">
+            <transition-group name="slider-slide" tag="div" class="container">
+                <single-question
+                    v-for="(item, index) in questionList"
+                    :key="index"
+                    :item="item"
+                    :questionsAnswered="questionsAnswered"
+                    :currentQuestion="currentQuestion">
+                </single-question>
+            </transition-group> 
 
-                <transition-group name="slider-slide" tag="div" class="container">
-                    <single-question
-                        v-for="(item, index) in questionList"
-                        :key="index"
-                        :item="item"
-                        :questionsAnswered="questionsAnswered"
-                        :currentQuestion="currentQuestion">
-                    </single-question>
-                </transition-group>
+            <button 
+                class="next-button"
+                @click="getRandom"
+            >Another</button>
 
-                <button 
-                    class="next-button"
-                    @click="getRandom"
-                >Another</button>
+            <button
+                ref="submitButton"
+                class="submit-button"
+                :class="{ '-hidden': isSubmitOpen }"
+                @click="openSubmit">
+                Submit a Question
+            </button>
 
-                <button
-                    ref="submitButton"
-                    class="submit-button"
-                    :class="{ '-hidden': isSubmitOpen }"
-                    @click="openSubmit">
-                    Submit a Question
-                </button>
+        </content-area>
+        
+        <create-question :class="{ '-hidden': !isSubmitOpen }"></create-question>
 
-                <create-question :class="{ '-hidden': !isSubmitOpen }"></create-question>
-            </content-area>
-        </transition>
     </div>
 </template>
 
@@ -136,7 +137,14 @@ export default {
     }
 }
 
+.main-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
 .container {
+    transition: all .6s ease-in;
     background: map-get($colors, white);
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     position: relative;
@@ -148,7 +156,7 @@ export default {
 .open-answers {
     transition: all .6s ease-in-out;
     position: absolute;
-    height: 5rem;
+    height: 3rem;
     width: 5rem;
     top: 0;
     left: -2rem;

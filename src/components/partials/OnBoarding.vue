@@ -49,7 +49,7 @@ export default {
     width: 100vw;
     position: relative;
     background-color: map-get($colors, yellow);
-
+    z-index: 10;
     .main-heading {
         color: map-get($colors, red);
         font-size: 5rem;

@@ -74,7 +74,7 @@ export default {
     },
     computed: {
         isAnswered () {
-            return this.questionsAnswered.includes(this.item.id)
+            return this.questionsAnswered.includes(this.item)
         },
         isCurrent () {
             if (this.currentQuestion.id === this.item.id) {
@@ -154,6 +154,7 @@ p {
         height: auto;
 
         p {
+            transition: opacity .3s ease-in-out;
             font-size: 1.5rem;
             margin-bottom: 0.5rem;
             opacity: 0;
