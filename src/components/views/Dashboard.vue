@@ -1,9 +1,9 @@
 <template>
     <div :class="this.$options.name">
 
-        <transition name="slider-slide-out">
+        <!-- <transition name="slider-slide-out">
             <on-boarding v-if="!isOnboardingComplete"></on-boarding>
-        </transition>
+        </transition> -->
 
         <div class="open-answers"
             :class="{ '-hidden': isMenuOpen }"
@@ -114,8 +114,8 @@ export default {
     },
     watch: {
         isAnswered: function () {
-            if (this.questionsAnswered.includes(this.currentQuestion.id)) {
-                console.log('and yes')
+            if (this.questionsAnswered.includes(this.currentQuestion)) {
+                console.log(this.questionsAnswered)
             }
         }
     },

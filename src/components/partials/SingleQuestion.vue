@@ -126,6 +126,7 @@ p {
 }
 
 .single-question {
+    overflow: visible;
     color: black;
     height: 100%;
     width: 100%;
