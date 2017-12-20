@@ -16,19 +16,22 @@
         
 
         <content-area valign="middle" class="main-wrapper">
-            <transition-group name="slider-slide" tag="div" class="container">
-                <single-question
-                    v-for="(item, index) in questionList"
-                    :key="index"
-                    :item="item"
-                    :questionsAnswered="questionsAnswered"
-                    :currentQuestion="currentQuestion">
-                </single-question>
-            </transition-group> 
+
+            <div class="container" ref="containerOuter">
+                <div class="-inner" ref="containerInner">
+                    <single-question
+                        v-for="(item, index) in questionList"
+                        :key="index"
+                        :item="item"
+                        :containerWidth="containerWidth"
+                        :questionsAnswered="questionsAnswered">
+                    </single-question>
+                </div>
+            </div>
 
             <button 
                 class="next-button"
-                @click="getRandom"
+                @click="showNewQuestion"
             >Another</button>
 
             <button
@@ -57,7 +60,9 @@ export default {
     },
     data () {
         return {
-            currentQuestion: false
+            // currentQuestion: false
+            questionNumber: 1,
+            containerWidth: null
         }
     },
     computed: {
@@ -93,13 +98,6 @@ export default {
             }
             this.$store.dispatch('answerQuestion', id)
         },
-        getRandom () {
-            this.currentQuestion = false
-            let value = this.questionList[Math.floor(Math.random() * this.questionList.length)]
-            if (!this.questionsAnswered.includes(value.id)) {
-                this.currentQuestion = value
-            }
-        },
         openSubmit () {
             this.$store.dispatch('toggleSubmit')
         },
@@ -110,6 +108,15 @@ export default {
         moveAnswer (item) {
             this.questionList.splice(item)
             this.questionsAnswered.push(item)
+        },
+        showNewQuestion () {
+            let num = parseInt(this.containerWidth.slice(0, -2))
+            let translateVal = num * this.questionNumber
+            this.$refs.containerInner.style.transform = `translateX(-${translateVal}px)`
+            this.questionNumber++
+        },
+        getContainerWidth () {
+            this.containerWidth = `${window.getComputedStyle(this.$refs.containerOuter, null).width}`
         }
     },
     watch: {
@@ -120,7 +127,7 @@ export default {
         }
     },
     activated () {
-        this.getRandom()
+        this.getContainerWidth()
     }
 }
 </script>
@@ -150,7 +157,16 @@ export default {
     position: relative;
     border-radius: 5px;
     height: 50vh;
+    width: 85vw;
+    margin: 0 auto;
     overflow: hidden;
+    display: flex;
+
+    .-inner {
+        transition: transform .5s ease-in-out;
+        width: auto;
+        display: flex;
+    }
 }
 
 .open-answers {
@@ -170,6 +186,17 @@ export default {
     // box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
     &.-hidden {
         transform: translateX(100vw);
+    }
+    &:after {
+        content: '';
+        height: 20px;
+        width: 20px;
+        position: absolute;
+        top: 30%;
+        right: 25%;
+        transform: rotate(45deg);
+        border-top: 2px solid map-get($colors, white);
+        border-right: 2px solid map-get($colors, white);
     }
 }
 

@@ -1,5 +1,5 @@
 <template>
-    <div class="single-question" :class="{ '-current': isCurrent }">
+    <div class="single-question" :style="{ 'width': containerWidth}">
         <p class="question"> {{ item.question }} </p>
         <div class="percent-bar" ref="percentBar">
             <div class="yes-bar" :style="{ transform: `scaleX(${yesPercent})`}"></div>
@@ -34,7 +34,7 @@ export default {
     props: [
         'item',
         'questionsAnswered',
-        'currentQuestion'
+        'containerWidth'
     ],
     data () {
         return {
@@ -47,6 +47,7 @@ export default {
         clickHandler (item, value) {
             let id = item.id
             this.generatePercentBar(item)
+            console.log(`${this.yesPercent}`)
             switch (value) {
                 case 'yes':
                     this.$store.dispatch('voteYes', id)
@@ -75,11 +76,6 @@ export default {
     computed: {
         isAnswered () {
             return this.questionsAnswered.includes(this.item)
-        },
-        isCurrent () {
-            if (this.currentQuestion.id === this.item.id) {
-                return true
-            }
         }
     },
     watch: {
@@ -129,7 +125,7 @@ p {
     overflow: visible;
     color: black;
     height: 100%;
-    width: 100%;
+    float: left;
     text-align: center;
     margin-bottom: 1rem;
     font-size: 1.25rem;
