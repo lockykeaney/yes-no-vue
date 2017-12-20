@@ -11,6 +11,60 @@
 }
 
 /* ===============
+  Slide slide Out transition
+=============== */
+
+.slider-slide-out-enter,
+.slider-slide-out-leave-to {
+    transform: translateY(100%);
+}
+
+.slider-slide-out-leave-to,
+.slider-slide-out-enter {
+    transform: translateY(-100%);
+}
+
+.slider-slide-out-leave-active,
+.slider-slide-out-enter-active,
+.slider-slide-out-leave-active,
+.slider-slide-out-enter-active {
+    transition: all 1s ease;
+    display: inline-block;
+}
+
+.slider-slide-out-leave-active,
+.slider-slide-out-enter-active {
+    position: absolute;
+}
+
+/* ===============
+  Slide slide In transition
+=============== */
+
+.slider-slide-in-enter,
+.slider-slide-in-leave-to {
+    transform: translateY(0%);
+}
+
+.slider-slide-in-leave-to,
+.slider-slide-in-enter {
+    transform: translateY(100%);
+}
+
+.slider-slide-in-leave-active,
+.slider-slide-in-enter-active,
+.slider-slide-in-leave-active,
+.slider-slide-in-enter-active {
+    transition: all 2s ease;
+    display: inline-block;
+}
+
+.slider-slide-in-leave-active,
+.slider-slide-in-enter-active {
+    position: absolute;
+}
+
+/* ===============
   Slide slide transition
 =============== */
 
@@ -49,4 +103,21 @@
 
 .fade-enter, .fade-leave-to {
     opacity: 0;
+}
+
+/* ===============
+  List Transition
+=============== */
+
+
+.list-item {
+    display: inline-block;
+    margin-right: 10px;
+}
+.list-enter-active, .list-leave-active {
+    transition: all 1s;
+}
+.list-enter, .list-leave-to /* .list-leave-active below version 2.1.8 */ {
+    opacity: 0;
+    transform: translateY(30px);
 }

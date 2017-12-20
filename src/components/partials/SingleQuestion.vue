@@ -1,25 +1,29 @@
 <template>
-    <div class="single-question" :class="{ '-answered': isAnswered }">
+    <div class="single-question" :class="{ '-current': isCurrent }">
         <p class="question"> {{ item.question }} </p>
         <div class="percent-bar" ref="percentBar">
             <div class="yes-bar" :style="{ transform: `scaleX(${yesPercent})`}"></div>
             <div class="no-bar" :style="{ transform: `scaleX(${noPercent})`}"></div>
         </div>
-        <div class="vote-box">
-            <p :class="{ '-active': isAnswered }"> {{ item.yesVotes }} </p>
-            <whirl-button 
-                class="button"
-                :disabled="isAnswered"
-                @click.native="clickHandler(item, 'yes')"
-                :label="'Yes'"/>
-        </div>
-        <div class="vote-box">
-            <p :class="{ '-active': isAnswered }"> {{ item.noVotes }} </p>
-            <whirl-button 
-                class="button"
-                :disabled="isAnswered"
-                @click.native="clickHandler(item, 'no')"
-                :label="'No'"/>
+        <div>
+            <div class="vote-box">
+                <p :class="{ '-active': isAnswered }"> {{ item.yesVotes }} </p>
+                <button 
+                    class="button"
+                    :disabled="isAnswered"
+                    :class="{ '-choice': thisAnswer === 'yes' }"
+                    @click="clickHandler(item, 'yes')"
+                >Yes</button>
+            </div>
+            <div class="vote-box">
+                <p :class="{ '-active': isAnswered }"> {{ item.noVotes }} </p>
+                <button 
+                    class="button"
+                    :disabled="isAnswered"
+                    :class="{ '-choice': thisAnswer === 'no' }"
+                    @click="clickHandler(item, 'no')"
+                >No</button>
+            </div>
         </div>
     </div>
 </template>
@@ -27,9 +31,6 @@
 <script>
 export default {
     name: 'single-question',
-    components: {
-        'whirl-button': require('@/components/partials/WhirlButton').default
-    },
     props: [
         'item',
         'questionsAnswered',
@@ -38,7 +39,8 @@ export default {
     data () {
         return {
             yesPercent: 0,
-            noPercent: 0
+            noPercent: 0,
+            thisAnswer: null
         }
     },
     methods: {
@@ -55,7 +57,8 @@ export default {
                     console.log(value)
                     break
             }
-            this.$store.dispatch('answerQuestion', id)
+            this.thisAnswer = value
+            this.$store.dispatch('answerQuestion', item)
         },
         generatePercentBar (item) {
             let total = item.yesVotes + item.noVotes
@@ -75,13 +78,18 @@ export default {
         },
         isCurrent () {
             if (this.currentQuestion.id === this.item.id) {
-                return this.isCurrentQuestion
+                return true
             }
         }
     },
     watch: {
         isAnswered: function () {
-            console.log(this)
+            if (this.thisAnswer === 'yes') {
+                console.log('add the yes class to button')
+            }
+            if (this.thisAnswer === 'no') {
+                console.log('add the no class to button')
+            }
         }
     },
     filters: {
@@ -97,8 +105,6 @@ export default {
     },
     mounted () {
         this.resetPercent()
-        console.log(this.currentQuestion.id)
-        console.log(this.item.id)
     }
 }
 </script>
@@ -121,18 +127,19 @@ p {
 
 .single-question {
     color: black;
-    height: auto;
+    height: 100%;
     width: 100%;
     text-align: center;
     margin-bottom: 1rem;
     font-size: 1.25rem;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    opacity: 0;
+    opacity: 1;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
 
-    .-current {
+    &.-current {
         opacity: 1;
     }
     
@@ -147,19 +154,26 @@ p {
         height: auto;
 
         p {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
             opacity: 0;
             &.-active {
                 opacity: 1;
             }
         }
-
+        .button {
+            &.-choice {
+                background-color: red;
+            }
+        }
     }
 
     .percent-bar {
         height: 1rem;
         width: 100%;
         position: relative;
-
+        margin-bottom: 2rem;
+        
         .yes-bar {
             @include bar-settings();
             background-color: plum;

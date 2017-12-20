@@ -43,6 +43,9 @@ const mutations = {
     ['UPDATE_MENU_OPEN'] (state, menuOpen) {
         state.menuOpen = menuOpen
     },
+    ['TOGGLE_MENU'] (state, menuOpen) {
+        state.menuOpen = menuOpen
+    },
     ['UPDATE_ONBOARDING'] (state, onboardingComplete) {
         state.onboardingComplete = onboardingComplete
     },

@@ -43,9 +43,9 @@ const mutations = {
     ['GET_ANSWERED'] (state, questionsAnswered) {
         state.questionsAnswered = questionsAnswered
     },
-    ['ANSWER_QUESTION'] (state, id) {
-        const item = state.questionList.find(item => item.id === id)
-        state.questionsAnswered.push(item.id)
+    ['ANSWER_QUESTION'] (state, item) {
+        // const item = state.questionList.find(item => item.id === id)
+        state.questionsAnswered.push(item)
     },
     ['CREATE_QUESTION'] (state, question) {
         let newQuestion = {

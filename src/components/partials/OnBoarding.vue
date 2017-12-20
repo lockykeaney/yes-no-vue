@@ -48,10 +48,13 @@ export default {
     height: 100vh;
     width: 100vw;
     position: relative;
-    background: linear-gradient(map-get($colors, lime),map-get($colors, purple));
+    background-color: map-get($colors, yellow);
 
     .main-heading {
-        transition: opacity .3s ease-in-out;
+        color: map-get($colors, red);
+        font-size: 5rem;
+        transition: opacity .5s ease-in-out;
+        transform: translateY(-5rem);
         opacity: 1;
         &.-loading {
             opacity: 0;
@@ -59,7 +62,7 @@ export default {
     }
 
     .sub-heading {
-        transition: all .3s ease-in-out;
+        transition: all .5s ease-in-out;
         transform: translateY(0px);
         opacity: 1;
         &.-loading {
@@ -69,10 +72,13 @@ export default {
     }
 
     .button {
+        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+        color: map-get($colors, white);
+        background: map-get($colors, red);
         transition: opacity .75s ease-in-out;
         opacity: 1;
         position: absolute;
-        top: 65%;
+        top: 85%;
         left: 50%;
         transform: translate(-50%, -50%);
         width: 50%;
