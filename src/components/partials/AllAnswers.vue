@@ -1,18 +1,23 @@
 <template>
     <div class="all-answers">
         <close-button @click.native="closeMenu"></close-button>
-        <div 
-            v-for="(answer, index) in questionsAnswered"
-            :key="index">
-            <p>{{ answer.question }}</p>
-            <div class="percent-bar" ref="percentBar">
-                <div class="yes-bar" :style="{ transform: `scaleX(${answer.yesVotes /(answer.yesVotes + answer.noVotes)})`}">
-                    <p class="percent-votes">Yes: {{ answer.yesVotes }}</p>
-                </div>
-                <div class="no-bar" :style="{ transform: `scaleX(${answer.noVotes /(answer.yesVotes + answer.noVotes)})`}">
-                    <p class="percent-votes">No: {{ answer.noVotes }}</p>
+        <div v-if="questionsAnswered">
+            <div
+                v-for="(answer, index) in questionsAnswered"
+                :key="index">
+                <p>{{ answer.question }}</p>
+                <div class="percent-bar" ref="percentBar">
+                    <div class="yes-bar" :style="{ transform: `scaleX(${answer.yesVotes /(answer.yesVotes + answer.noVotes)})`}">
+                        <p class="percent-votes">Yes: {{ answer.yesVotes }}</p>
+                    </div>
+                    <div class="no-bar" :style="{ transform: `scaleX(${answer.noVotes /(answer.yesVotes + answer.noVotes)})`}">
+                        <p class="percent-votes">No: {{ answer.noVotes }}</p>
+                    </div>
                 </div>
             </div>
+        </div>
+        <div v-else>
+            <p>You have no answered questions</p>
         </div>
     </div>
 </template>
@@ -90,8 +95,7 @@ export default {
 
         .percent-votes {
             @include abso-cent;
-            width: 100%;
-            transform: translate(-50%, -50%) scaleX(1);
+            width: 20vw;
         }
     }
 }
