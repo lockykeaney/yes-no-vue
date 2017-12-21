@@ -5,7 +5,14 @@
             v-for="(answer, index) in questionsAnswered"
             :key="index">
             <p>{{ answer.question }}</p>
-            <p>Yes: {{ answer.yesVotes }} - No: {{ answer.noVotes }}</p>
+            <div class="percent-bar" ref="percentBar">
+                <div class="yes-bar" :style="{ transform: `scaleX(${answer.yesVotes /(answer.yesVotes + answer.noVotes)})`}">
+                    <p class="percent-votes">Yes: {{ answer.yesVotes }}</p>
+                </div>
+                <div class="no-bar" :style="{ transform: `scaleX(${answer.noVotes /(answer.yesVotes + answer.noVotes)})`}">
+                    <p class="percent-votes">No: {{ answer.noVotes }}</p>
+                </div>
+            </div>
         </div>
     </div>
 </template>
@@ -27,6 +34,14 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../assets/sass/tools';
+
+@mixin bar-settings {
+    transition: transform .3s ease-in-out;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+}
 
 .all-answers {
     padding-top: 5rem;
@@ -51,6 +66,33 @@ export default {
 
     &.-hidden {
         transform: translateX(-100%);
+    }
+
+    .percent-bar {
+        height: 2rem;
+        width: 90%;
+        margin: 0 auto;
+        position: relative;
+        margin-bottom: 2rem;
+        
+        .yes-bar {
+            @include bar-settings();
+            background-color: plum;
+            left: 0;
+            transform-origin: left;
+        }
+        .no-bar {
+            @include bar-settings();
+            background-color: tomato;
+            right: 0;
+            transform-origin: right;
+        }
+
+        .percent-votes {
+            @include abso-cent;
+            width: 100%;
+            transform: translate(-50%, -50%) scaleX(1);
+        }
     }
 }
 

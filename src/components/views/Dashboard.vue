@@ -67,7 +67,7 @@ export default {
     },
     computed: {
         questionList () {
-            return this.$store.getters.getQuestions
+            return this._.shuffle(this.$store.getters.getQuestions)
         },
         questionsAnswered () {
             return this.$store.getters.getQuestionsAnswered
@@ -83,31 +83,11 @@ export default {
         }
     },
     methods: {
-        clickHandler (item, value) {
-            let id = item.id
-            this.generatePercentBar(item)
-            switch (value) {
-                case 'yes':
-                    this.$store.dispatch('voteYes', id)
-                    console.log(value)
-                    break
-                case 'no':
-                    this.$store.dispatch('voteNo', id)
-                    console.log(value)
-                    break
-            }
-            this.$store.dispatch('answerQuestion', id)
-        },
         openSubmit () {
             this.$store.dispatch('toggleSubmit')
         },
         openMenu () {
             this.$store.dispatch('toggleMenu')
-            console.log('menu toggle')
-        },
-        moveAnswer (item) {
-            this.questionList.splice(item)
-            this.questionsAnswered.push(item)
         },
         showNewQuestion () {
             let num = parseInt(this.containerWidth.slice(0, -2))

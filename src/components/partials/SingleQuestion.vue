@@ -167,7 +167,7 @@ p {
     }
 
     .percent-bar {
-        height: 1rem;
+        height: 2rem;
         width: 100%;
         position: relative;
         margin-bottom: 2rem;
@@ -177,12 +177,16 @@ p {
             background-color: plum;
             left: 0;
             transform-origin: left;
+            // border-top-left-radius: 50px;
+            // border-bottom-left-radius: 50px;
         }
         .no-bar {
             @include bar-settings();
             background-color: tomato;
             right: 0;
             transform-origin: right;
+            // border-top-right-radius: 50px;
+            // border-bottom-right-radius: 50px;
         }
     }
 }

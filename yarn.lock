@@ -6393,6 +6393,10 @@ vue-loader@^13.0.4:
     vue-style-loader "^3.0.0"
     vue-template-es2015-compiler "^1.6.0"
 
+vue-lodash@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/vue-lodash/-/vue-lodash-1.0.4.tgz#99f4f2f5832ce0168c4d45618789288a638562cd"
+
 vue-router@^3.0.1:
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/vue-router/-/vue-router-3.0.1.tgz#d9b05ad9c7420ba0f626d6500d693e60092cc1e9"

@@ -8,6 +8,10 @@ import * as a11y from '@/app/a11y'
 import { EventBus } from '@/app/bus'
 import Mixin from '@/app/mixin'
 import Eventt from 'eventt.js'
+import lodash from 'lodash'
+import VueLodash from 'vue-lodash'
+
+Vue.use(VueLodash, lodash)
 
 // turn production tips off
 Vue.config.productionTip = false

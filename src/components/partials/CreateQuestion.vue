@@ -20,15 +20,23 @@ export default {
         submitQuestion (e) {
             e.preventDefault()
             let string = this.$refs.askQuestion.value
-            console.log(string)
             if (string.charAt(string.length - 1) !== '?') {
                 string = string + '?'
             }
             this.$store.dispatch('createQuestion', string)
-            this.$refs.askQuestion.placeholder = 'Thanks!'
+            console.log(this.$refs.createForm.querySelector('button'))
+            this.$refs.createForm.querySelector('button').innerHTML = 'Thanks!'
+        },
+        resetForm () {
+            console.log('going')
+            setTimeout(() => {
+                this.$refs.createForm.querySelector('input').value = ''
+                this.$refs.createForm.querySelector('button').innerHTML = 'Submit'
+            }, 250)
         },
         closeSubmit () {
             this.$store.dispatch('toggleSubmit')
+            this.resetForm()
         }
     }
 }
@@ -73,7 +81,8 @@ export default {
         }
     }
 
-    button {
+    button { 
+        transition: all .3s ease-in-out;
         @include abso-cent;
         top: 100%;
         padding: 0.5rem 1.5rem;
