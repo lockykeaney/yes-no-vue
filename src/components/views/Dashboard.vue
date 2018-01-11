@@ -60,7 +60,6 @@ export default {
     },
     data () {
         return {
-            // currentQuestion: false
             questionNumber: 1,
             containerWidth: null
         }
@@ -97,13 +96,6 @@ export default {
         },
         getContainerWidth () {
             this.containerWidth = `${window.getComputedStyle(this.$refs.containerOuter, null).width}`
-        }
-    },
-    watch: {
-        isAnswered: function () {
-            if (this.questionsAnswered.includes(this.currentQuestion)) {
-                console.log(this.questionsAnswered)
-            }
         }
     },
     activated () {

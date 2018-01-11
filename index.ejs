@@ -38,6 +38,9 @@
     <meta name="twitter:description" content="<%= htmlWebpackPlugin.options.open_graph.description %>">
     <meta name="twitter:image" content="<%= htmlWebpackPlugin.options.open_graph.image %>">
     <% } %>
+
+    <!-- Manifest File -->
+    <link rel="manifest" href="<%= htmlWebpackPlugin.files.publicPath %>static/manifest.json">
 </head>
 
 <body>

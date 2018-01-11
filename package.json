@@ -9,11 +9,13 @@
         "dev:autofix": "ESLINT_FIX=true node build/dev-server.js",
         "start": "webpack-dashboard -- yarn run dev",
         "build": "node build/build.js",
+        "surge": "node build/build.js surge /dist",
         "build:staging": "APP_ENV=staging node build/build.js",
         "build:production": "APP_ENV=production node build/build.js"
     },
     "dependencies": {
         "autotrack": "^2.4.1",
+        "axios": "^0.17.1",
         "babel-polyfill": "^6.23.0",
         "compression-webpack-plugin": "^1.0.0",
         "dotenv": "^4.0.0",
@@ -27,6 +29,7 @@
         "node-sass": "^4.5.3",
         "perfect-scrollbar": "^1.1.0",
         "sass-loader": "^6.0.6",
+        "store": "^2.0.12",
         "svg-sprite-loader": "^3.0.7",
         "svg-url-loader": "^2.1.1",
         "svgo-loader": "^1.2.1",

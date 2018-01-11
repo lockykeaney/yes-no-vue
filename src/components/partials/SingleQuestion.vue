@@ -45,17 +45,14 @@ export default {
     },
     methods: {
         clickHandler (item, value) {
-            let id = item.id
+            let id = item._id
             this.generatePercentBar(item)
-            console.log(`${this.yesPercent}`)
             switch (value) {
                 case 'yes':
                     this.$store.dispatch('voteYes', id)
-                    console.log(value)
                     break
                 case 'no':
                     this.$store.dispatch('voteNo', id)
-                    console.log(value)
                     break
             }
             this.thisAnswer = value
@@ -81,17 +78,12 @@ export default {
     watch: {
         isAnswered: function () {
             if (this.thisAnswer === 'yes') {
-                console.log('add the yes class to button')
             }
             if (this.thisAnswer === 'no') {
-                console.log('add the no class to button')
             }
         }
     },
     filters: {
-        capitalize (val) {
-            return val.charAt(0).toUpperCase() + val.slice(1)
-        },
         questionMark (val) {
             if (val.charAt(val.length - 1) !== '?') {
                 val = val + '?'

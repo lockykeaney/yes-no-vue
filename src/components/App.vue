@@ -10,7 +10,6 @@
 
 <script>
 import _debounce from 'lodash.debounce'
-
 export default {
     name: 'app',
     computed: {
@@ -28,11 +27,14 @@ export default {
             this.fixFocusableSvgs()
         })
 
-        // axios.get('url')
-        //     .then((response) => {
-        //         this.$store.dispatch('getQuestionData', response.data.data)
-        //     })
-        this.$store.dispatch('getQuestionData')
+        console.log(process.env.NODE_ENV)
+
+        fetch('http://localhost:5678/all')
+            .then(response => response.json())
+            .then((data) => {
+                console.log(data)
+                this.$store.dispatch('getQuestionData', data)
+            })
     },
     methods: {
         detectDevice () {

@@ -3,7 +3,7 @@
         <close-button @click.native="closeSubmit"></close-button>
         <!-- <text-input @click="submitQuestion">Submit</text-input> -->
         <form ref="createForm" class="form-wrap">
-            <input type="text" ref="askQuestion" placeholder="What is you question?" />
+            <input type="text" ref="askQuestion" placeholder="What is you question?" required/>
             <button @click="submitQuestion">Submit</button>
         </form>
     </div>
@@ -20,15 +20,19 @@ export default {
         submitQuestion (e) {
             e.preventDefault()
             let string = this.$refs.askQuestion.value
-            if (string.charAt(string.length - 1) !== '?') {
-                string = string + '?'
+            console.log(string)
+            console.log(string.length)
+            if (string.length !== 0) {
+                if (string.charAt(string.length - 1) !== '?') {
+                    string = string + '?'
+                }
+                this.$store.dispatch('createQuestion', this.capitalize(string))
+                this.$refs.createForm.querySelector('button').innerHTML = 'Thanks!'
+            } else {
+                console.log('no input')
             }
-            this.$store.dispatch('createQuestion', string)
-            console.log(this.$refs.createForm.querySelector('button'))
-            this.$refs.createForm.querySelector('button').innerHTML = 'Thanks!'
         },
         resetForm () {
-            console.log('going')
             setTimeout(() => {
                 this.$refs.createForm.querySelector('input').value = ''
                 this.$refs.createForm.querySelector('button').innerHTML = 'Submit'
@@ -37,6 +41,9 @@ export default {
         closeSubmit () {
             this.$store.dispatch('toggleSubmit')
             this.resetForm()
+        },
+        capitalize (val) {
+            return val.charAt(0).toUpperCase() + val.slice(1)
         }
     }
 }
@@ -89,6 +96,5 @@ export default {
         background-color: grey;
     }
 }
-
 
 </style>
