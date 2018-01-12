@@ -26,6 +26,9 @@ const actions = {
     },
     getQuestionData ({ commit, state }, questionData) {
         commit('STORE_QUESTION_DATA', questionData)
+    },
+    importAnswered ({ commit, state }, questionsAnswered) {
+        commit('IMPORT_ANSWERED', questionsAnswered)
     }
 }
 
@@ -45,7 +48,7 @@ const mutations = {
             method: 'POST'
         })
     },
-    ['GET_ANSWERED'] (state, questionsAnswered) {
+    ['IMPORT_ANSWERED'] (state, questionsAnswered) {
         state.questionsAnswered = questionsAnswered
     },
     ['ANSWER_QUESTION'] (state, item) {

@@ -10,6 +10,8 @@
 
 <script>
 import _debounce from 'lodash.debounce'
+import store from 'store'
+
 export default {
     name: 'app',
     computed: {
@@ -27,14 +29,13 @@ export default {
             this.fixFocusableSvgs()
         })
 
-        console.log(process.env.NODE_ENV)
-
-        fetch('http://localhost:5678/all')
+        fetch(env.DATA_SOURCE)
             .then(response => response.json())
             .then((data) => {
-                console.log(data)
                 this.$store.dispatch('getQuestionData', data)
             })
+
+        this.getLocalStorage()
     },
     methods: {
         detectDevice () {
@@ -44,6 +45,14 @@ export default {
             // Add focusable="false" to prevent bug on IE
             let svgsToFix = document.querySelectorAll('svg:not([focusable])')
             for (let i = 0; i < svgsToFix.length; i++) svgsToFix[i].setAttribute('focusable', 'false')
+        },
+        getLocalStorage () {
+            if (store.get('questionsAnswered') === undefined) {
+                console.log('no store')
+            } else {
+                store.get('questionsAnswered')
+                this.$store.dispatch('importAnswered', store.get('questionsAnswered'))
+            }
         }
     }
 }

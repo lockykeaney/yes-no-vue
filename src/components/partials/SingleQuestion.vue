@@ -29,6 +29,7 @@
 </template>
 
 <script>
+
 export default {
     name: 'single-question',
     props: [
@@ -57,6 +58,7 @@ export default {
             }
             this.thisAnswer = value
             this.$store.dispatch('answerQuestion', item)
+            // this.syncLocalStorage()
         },
         generatePercentBar (item) {
             let total = item.yesVotes + item.noVotes
@@ -69,6 +71,9 @@ export default {
                 this.yesPercent = 0
             }
         }
+        // syncLocalStorage () {
+        //     store.set('questionsAnswered', this.$store.getters.getQuestionsAnswered)
+        // }
     },
     computed: {
         isAnswered () {

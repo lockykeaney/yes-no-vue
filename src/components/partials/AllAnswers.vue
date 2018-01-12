@@ -28,7 +28,11 @@ export default {
     components: {
         'close-button': require('@/components/partials/CloseButton').default
     },
-    props: ['questionsAnswered'],
+    computed: {
+        questionsAnswered () {
+            return this.$store.getters.getQuestionsAnswered
+        }
+    },
     methods: {
         closeMenu () {
             this.$store.dispatch('toggleMenu')

@@ -1,6 +1,6 @@
 {
-    "name": "{{ name }}",
-    "short_name": "{{#if short_name }}{{ short_name }}{{else}}{{ name }}{{/if}}",
+    "name": "Yes/No",
+    "short_name": "yes/no",
     "icons": [
       {
         "src": "/static/img/icons/android-chrome-512x512.png",
@@ -8,7 +8,7 @@
         "type": "image/png"
       }
     ],
-    "start_url": "/index.html",
+    "start_url": "/",
     "display": "standalone",
     "background_color": "#000000",
     "theme_color": "#4DBA87",

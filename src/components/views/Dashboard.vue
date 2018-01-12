@@ -10,10 +10,8 @@
             @click="openMenu">
         </div>
 
-        <all-answers 
-            :questionsAnswered="questionsAnswered"
+        <all-answers
             :class="{ '-hidden': !isMenuOpen }"></all-answers>
-        
 
         <content-area valign="middle" class="main-wrapper">
 
@@ -50,6 +48,8 @@
 </template>
 
 <script>
+import store from 'store'
+
 export default {
     name: 'dashboard',
     components: {
@@ -66,7 +66,7 @@ export default {
     },
     computed: {
         questionList () {
-            return this._.shuffle(this.$store.getters.getQuestions)
+            return this.$store.getters.getQuestions
         },
         questionsAnswered () {
             return this.$store.getters.getQuestionsAnswered
@@ -79,6 +79,11 @@ export default {
         },
         isMenuOpen () {
             return this.$store.getters.isMenuOpen
+        },
+        finalList () {
+            return this.questionList.filter((val) => {
+                return this._.findIndex(this.questionsAnswered, {'_id': val._id})
+            })
         }
     },
     methods: {
@@ -93,9 +98,13 @@ export default {
             let translateVal = num * this.questionNumber
             this.$refs.containerInner.style.transform = `translateX(-${translateVal}px)`
             this.questionNumber++
+            this.syncLocalStorage()
         },
         getContainerWidth () {
             this.containerWidth = `${window.getComputedStyle(this.$refs.containerOuter, null).width}`
+        },
+        syncLocalStorage () {
+            store.set('questionsAnswered', this.$store.getters.getQuestionsAnswered)
         }
     },
     activated () {
