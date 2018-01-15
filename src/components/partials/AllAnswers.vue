@@ -1,7 +1,14 @@
 <template>
     <div class="all-answers">
-        <close-button @click.native="closeMenu"></close-button>
-        <div v-if="questionsAnswered">
+
+        <div class="open-answers"
+            :class="{ '-hidden': isMenuOpen }"
+            @click="toggleMenu">
+        </div>
+
+        <close-button @click.native="toggleMenu"></close-button>
+
+        <div v-if="questionsAnswered !== 0">
             <div
                 v-for="(answer, index) in questionsAnswered"
                 :key="index">
@@ -31,10 +38,13 @@ export default {
     computed: {
         questionsAnswered () {
             return this.$store.getters.getQuestionsAnswered
+        },
+        isMenuOpen () {
+            return this.$store.getters.isMenuOpen
         }
     },
     methods: {
-        closeMenu () {
+        toggleMenu () {
             this.$store.dispatch('toggleMenu')
         }
     }
@@ -55,7 +65,7 @@ export default {
 .all-answers {
     padding-top: 5rem;
     text-align: center;
-    transition: all .6s ease-in-out;
+    transition: all .4s ease-in-out;
     position: absolute;
     height: 100%;
     width: 100%;
@@ -63,7 +73,7 @@ export default {
     left: 0;
     background-color: map-get($colors, red);
     color: map-get($colors, white);
-    z-index: 5;
+    z-index: 10;
     transform: translateX(0%);
     // box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 
@@ -72,6 +82,34 @@ export default {
         top: 1rem;
         right: 1rem;
     }
+
+    .open-answers {
+        position: absolute;
+        height: 3rem;
+        width: 5rem;
+        top: 0;
+        right: -3rem;
+        z-index: 3;
+        background-color: map-get($colors, red);
+        color: map-get($colors, white);
+        border-bottom-right-radius: 1.5rem;
+        display: flex;
+        align-content: center;
+        justify-content: center;
+
+        &:after {
+            content: '';
+            height: 20px;
+            width: 20px;
+            position: absolute;
+            top: 30%;
+            right: 25%;
+            transform: rotate(45deg);
+            border-top: 2px solid map-get($colors, white);
+            border-right: 2px solid map-get($colors, white);
+        }
+    }
+
 
     &.-hidden {
         transform: translateX(-100%);

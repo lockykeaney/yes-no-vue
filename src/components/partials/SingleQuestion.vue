@@ -73,12 +73,6 @@ export default {
             this.yesPercent = item.yesVotes / total
             this.noPercent = item.noVotes / total
         },
-        resetPercent () {
-            if (this.noPercent !== 0 && this.yesPercent !== 0) {
-                this.noPercent = 0
-                this.yesPercent = 0
-            }
-        },
         syncLocalStorage () {
             store.set('questionsAnswered', this.$store.getters.getQuestionsAnswered)
         }
@@ -88,14 +82,6 @@ export default {
             return this.questionsAnswered.includes(this.item)
         }
     },
-    watch: {
-        isAnswered: function () {
-            if (this.thisAnswer === 'yes') {
-            }
-            if (this.thisAnswer === 'no') {
-            }
-        }
-    },
     filters: {
         questionMark (val) {
             if (val.charAt(val.length - 1) !== '?') {
@@ -103,9 +89,6 @@ export default {
             }
             return val
         }
-    },
-    mounted () {
-        this.resetPercent()
     }
 }
 </script>

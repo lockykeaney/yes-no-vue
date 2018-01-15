@@ -1,7 +1,15 @@
 <template>
+
     <div class="create-question">
+        <button
+            ref="submitButton"
+            class="submit-button"
+            :class="{ '-hidden': isSubmitOpen }"
+            @click="openSubmit">
+            Submit a Question
+        </button>
+
         <close-button @click.native="closeSubmit"></close-button>
-        <!-- <text-input @click="submitQuestion">Submit</text-input> -->
         <form ref="createForm" class="form-wrap">
             <input type="text" ref="askQuestion" placeholder="What is you question?" required/>
             <button @click="submitQuestion">Submit</button>
@@ -15,6 +23,11 @@ export default {
     components: {
         'text-input': require('@/components/partials/TextInput').default,
         'close-button': require('@/components/partials/CloseButton').default
+    },
+    computed: {
+        isSubmitOpen () {
+            return this.$store.getters.isSubmitOpen
+        }
     },
     methods: {
         submitQuestion (e) {
@@ -38,6 +51,9 @@ export default {
                 this.$refs.createForm.querySelector('button').innerHTML = 'Submit'
             }, 250)
         },
+        openSubmit () {
+            this.$store.dispatch('toggleSubmit')
+        },
         closeSubmit () {
             this.$store.dispatch('toggleSubmit')
             this.resetForm()
@@ -53,7 +69,7 @@ export default {
 @import '../../assets/sass/tools';
 .create-question {
     padding: 1rem;
-    transition: transform .6s ease-in-out;
+    transition: transform .4s ease-in-out;
     height: 100%;
     width: 100%;
     position: absolute;
@@ -71,6 +87,22 @@ export default {
         width: 100%;
         height: auto;
         padding: 2rem;
+    }
+
+    .submit-button {
+        border: 0;
+        outline: 0;
+        height: 6vh;
+        width: 60%;
+        font-size: 1.2rem;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+        background: map-get($colors, purple);
+        color: map-get($colors, pink);
+        position: absolute;
+        left: 50%;
+        z-index: 5;
+        top: -3vh;
     }
 
     input {
@@ -91,6 +123,7 @@ export default {
     button { 
         transition: all .3s ease-in-out;
         @include abso-cent;
+        z-index: 10;
         top: 100%;
         padding: 0.5rem 1.5rem;
         background-color: grey;

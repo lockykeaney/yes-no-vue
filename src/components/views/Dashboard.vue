@@ -1,14 +1,9 @@
 <template>
     <div :class="this.$options.name">
 
-        <!-- <transition name="slider-slide-out">
+        <transition name="slider-slide-out">
             <on-boarding v-if="!isOnboardingComplete"></on-boarding>
-        </transition> -->
-
-        <div class="open-answers"
-            :class="{ '-hidden': isMenuOpen }"
-            @click="openMenu">
-        </div>
+        </transition>
 
         <all-answers
             :class="{ '-hidden': !isMenuOpen }">
@@ -28,7 +23,7 @@
                 </div>
                 <div class="no-questions" v-else>
                     <p>No more questions</p>
-                    <p>Why not submit on below?</p>
+                    <p>Why not submit one below?</p>
                 </div>
             </div>
 
@@ -40,16 +35,8 @@
                 Another
             </button>
 
-            <button
-                ref="submitButton"
-                class="submit-button"
-                :class="{ '-hidden': isSubmitOpen }"
-                @click="openSubmit">
-                Submit a Question
-            </button>
-
         </content-area>
-        
+
         <create-question 
             :class="{ '-hidden': !isSubmitOpen }">
         </create-question>
@@ -58,6 +45,7 @@
 </template>
 
 <script>
+// import differenceBy from 'lodash.differenceby'
 
 export default {
     name: 'dashboard',
@@ -71,7 +59,8 @@ export default {
         return {
             questionNumber: 1,
             containerWidth: null,
-            finalList: []
+            finalList: [],
+            answeredAll: false
         }
     },
     computed: {
@@ -84,20 +73,17 @@ export default {
         isOnboardingComplete () {
             return this.$store.getters.isOnboardingComplete
         },
-        isSubmitOpen () {
-            return this.$store.getters.isSubmitOpen
-        },
         isMenuOpen () {
             return this.$store.getters.isMenuOpen
+        },
+        isSubmitOpen () {
+            return this.$store.getters.isSubmitOpen
         },
         isNextButtonVisible () {
             return this.$store.getters.isNextButtonVisible
         }
     },
     methods: {
-        openSubmit () {
-            this.$store.dispatch('toggleSubmit')
-        },
         openMenu () {
             this.$store.dispatch('toggleMenu')
         },
@@ -154,63 +140,12 @@ export default {
     margin: 0 auto;
     overflow: hidden;
     display: flex;
-    z-index: 5;
+    z-index: 1;
 
     .-inner {
         transition: transform .5s ease-in-out;
         width: auto;
         display: flex;
-    }
-}
-
-.open-answers {
-    transition: all .6s ease-in-out;
-    position: absolute;
-    height: 3rem;
-    width: 5rem;
-    top: 0;
-    left: -2rem;
-    z-index: 3;
-    background-color: map-get($colors, red);
-    color: map-get($colors, white);
-    border-bottom-right-radius: 1.5rem;
-    display: flex;
-    align-content: center;
-    justify-content: center;
-    // box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    &.-hidden {
-        transform: translateX(100vw);
-    }
-    &:after {
-        content: '';
-        height: 20px;
-        width: 20px;
-        position: absolute;
-        top: 30%;
-        right: 25%;
-        transform: rotate(45deg);
-        border-top: 2px solid map-get($colors, white);
-        border-right: 2px solid map-get($colors, white);
-    }
-}
-
-.submit-button {
-    border: 0;
-    outline: 0;
-    height:6vh;
-    width: 60%;
-    font-size: 1.2rem;
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-    background: map-get($colors, purple);
-    color: map-get($colors, pink);
-    position: absolute;
-    left: 50%;
-    transform: translate(-50%, 0%);
-    bottom: 0;
-    transition: transform .6s ease-in-out;
-    &.-hidden {
-        transform: translate(-50%, -100vh);
     }
 }
 
