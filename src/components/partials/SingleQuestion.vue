@@ -2,8 +2,12 @@
     <div class="single-question" :style="{ 'width': containerWidth}">
         <p class="question"> {{ item.question }} </p>
         <div class="percent-bar" ref="percentBar">
-            <div class="yes-bar" :style="{ transform: `scaleX(${yesPercent})`}"></div>
-            <div class="no-bar" :style="{ transform: `scaleX(${noPercent})`}"></div>
+            <div class="yes-bar" 
+                :style="{ transform: `scaleX(${yesPercent})`}">
+            </div>
+            <div class="no-bar" 
+                :style="{ transform: `scaleX(${noPercent})`}">
+            </div>
         </div>
         <div>
             <div class="vote-box">
@@ -12,8 +16,9 @@
                     class="button"
                     :disabled="isAnswered"
                     :class="{ '-choice': thisAnswer === 'yes' }"
-                    @click="clickHandler(item, 'yes')"
-                >Yes</button>
+                    @click="clickHandler(item, 'yes')">
+                    Yes
+                </button>
             </div>
             <div class="vote-box">
                 <p :class="{ '-active': isAnswered }"> {{ item.noVotes }} </p>
@@ -21,14 +26,16 @@
                     class="button"
                     :disabled="isAnswered"
                     :class="{ '-choice': thisAnswer === 'no' }"
-                    @click="clickHandler(item, 'no')"
-                >No</button>
+                    @click="clickHandler(item, 'no')">
+                    No
+                </button>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+import store from 'store'
 
 export default {
     name: 'single-question',
@@ -58,7 +65,8 @@ export default {
             }
             this.thisAnswer = value
             this.$store.dispatch('answerQuestion', item)
-            // this.syncLocalStorage()
+            this.syncLocalStorage()
+            this.$store.dispatch('showNextButton')
         },
         generatePercentBar (item) {
             let total = item.yesVotes + item.noVotes
@@ -70,10 +78,10 @@ export default {
                 this.noPercent = 0
                 this.yesPercent = 0
             }
+        },
+        syncLocalStorage () {
+            store.set('questionsAnswered', this.$store.getters.getQuestionsAnswered)
         }
-        // syncLocalStorage () {
-        //     store.set('questionsAnswered', this.$store.getters.getQuestionsAnswered)
-        // }
     },
     computed: {
         isAnswered () {

@@ -2,14 +2,16 @@
 const state = {
     menuOpen: false,
     submitOpen: false,
-    onboardingComplete: false
+    onboardingComplete: false,
+    nextButtonVisible: false
 }
 
 // getters
 const getters = {
     isMenuOpen: state => state.menuOpen,
     isSubmitOpen: state => state.submitOpen,
-    isOnboardingComplete: state => state.onboardingComplete
+    isOnboardingComplete: state => state.onboardingComplete,
+    isNextButtonVisible: state => state.nextButtonVisible
 }
 
 // actions
@@ -34,6 +36,12 @@ const actions = {
     },
     updateOnboarding ({ commit, state }) {
         commit('UPDATE_ONBOARDING', true)
+    },
+    showNextButton ({ commit, state }) {
+        commit('SHOW_NEXT_BUTTON', true)
+    },
+    hideNextButton ({ commit, state }) {
+        commit('HIDE_NEXT_BUTTON', false)
     }
 }
 
@@ -51,6 +59,12 @@ const mutations = {
     },
     ['TOGGLE_SUBMIT'] (state, submitOpen) {
         state.submitOpen = submitOpen
+    },
+    ['SHOW_NEXT_BUTTON'] (state, nextButtonVisible) {
+        state.nextButtonVisible = nextButtonVisible
+    },
+    ['HIDE_NEXT_BUTTON'] (state, nextButtonVisible) {
+        state.nextButtonVisible = nextButtonVisible
     }
 }
 

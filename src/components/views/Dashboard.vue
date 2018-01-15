@@ -11,26 +11,34 @@
         </div>
 
         <all-answers
-            :class="{ '-hidden': !isMenuOpen }"></all-answers>
+            :class="{ '-hidden': !isMenuOpen }">
+        </all-answers>
 
         <content-area valign="middle" class="main-wrapper">
 
             <div class="container" ref="containerOuter">
-                <div class="-inner" ref="containerInner">
+                <div v-if="finalList.length !== 0" class="-inner" ref="containerInner">
                     <single-question
-                        v-for="(item, index) in questionList"
+                        v-for="(item, index) in finalList"
                         :key="index"
                         :item="item"
                         :containerWidth="containerWidth"
                         :questionsAnswered="questionsAnswered">
                     </single-question>
                 </div>
+                <div class="no-questions" v-else>
+                    <p>No more questions</p>
+                    <p>Why not submit on below?</p>
+                </div>
             </div>
 
             <button 
                 class="next-button"
-                @click="showNewQuestion"
-            >Another</button>
+                :class="{'-hide': !isNextButtonVisible}"
+                ref="showNextQuestion"
+                @click="showNextQuestion">
+                Another
+            </button>
 
             <button
                 ref="submitButton"
@@ -42,13 +50,14 @@
 
         </content-area>
         
-        <create-question :class="{ '-hidden': !isSubmitOpen }"></create-question>
+        <create-question 
+            :class="{ '-hidden': !isSubmitOpen }">
+        </create-question>
 
     </div>
 </template>
 
 <script>
-import store from 'store'
 
 export default {
     name: 'dashboard',
@@ -61,7 +70,8 @@ export default {
     data () {
         return {
             questionNumber: 1,
-            containerWidth: null
+            containerWidth: null,
+            finalList: []
         }
     },
     computed: {
@@ -80,10 +90,8 @@ export default {
         isMenuOpen () {
             return this.$store.getters.isMenuOpen
         },
-        finalList () {
-            return this.questionList.filter((val) => {
-                return this._.findIndex(this.questionsAnswered, {'_id': val._id})
-            })
+        isNextButtonVisible () {
+            return this.$store.getters.isNextButtonVisible
         }
     },
     methods: {
@@ -93,22 +101,26 @@ export default {
         openMenu () {
             this.$store.dispatch('toggleMenu')
         },
-        showNewQuestion () {
+        showNextQuestion () {
             let num = parseInt(this.containerWidth.slice(0, -2))
             let translateVal = num * this.questionNumber
             this.$refs.containerInner.style.transform = `translateX(-${translateVal}px)`
             this.questionNumber++
-            this.syncLocalStorage()
+            this.$store.dispatch('hideNextButton')
         },
         getContainerWidth () {
             this.containerWidth = `${window.getComputedStyle(this.$refs.containerOuter, null).width}`
         },
-        syncLocalStorage () {
-            store.set('questionsAnswered', this.$store.getters.getQuestionsAnswered)
+        getFinalList () {
+            let list = this._.differenceBy(this.questionList, this.questionsAnswered, '_id')
+            this.finalList = this._.shuffle(list)
         }
     },
     activated () {
         this.getContainerWidth()
+    },
+    mounted () {
+        this.getFinalList()
     }
 }
 </script>
@@ -142,6 +154,7 @@ export default {
     margin: 0 auto;
     overflow: hidden;
     display: flex;
+    z-index: 5;
 
     .-inner {
         transition: transform .5s ease-in-out;
@@ -200,12 +213,28 @@ export default {
         transform: translate(-50%, -100vh);
     }
 }
+
 .next-button {
+    transition: all .3s ease-in-out;
     background-color: map-get($colors, white);
     padding: 0.5rem 1rem;
     float: right;
     margin-right: 1rem;
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
+    
+    &.-hide {
+        transform: translateY(-50px);
+    }
+}
+
+.no-questions {
+    height: auto;
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 </style>

@@ -10,6 +10,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const OptimizeCSSPlugin = require('optimize-css-assets-webpack-plugin')
+const SWPrecacheWebpackPlugin = require('sw-precache-webpack-plugin')
 
 const env = process.env.NODE_ENV === 'testing' ?
     require('./config/test.env') :
@@ -110,7 +111,14 @@ const webpackConfig = merge(baseWebpackConfig, {
             {
                 copyUnmodified: true
             }
-        )
+        ),
+        new SWPrecacheWebpackPlugin({
+            cacheId: 'yes-no-vue',
+            filename: 'service-worker.js',
+            staticFileGlobs: ['dist/**/*.{js,html,css}'],
+            minify: true,
+            stripPrefix: 'dist/'
+          })
     ]
 })
 
