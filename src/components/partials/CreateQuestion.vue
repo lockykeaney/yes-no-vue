@@ -33,8 +33,6 @@ export default {
         submitQuestion (e) {
             e.preventDefault()
             let string = this.$refs.askQuestion.value
-            console.log(string)
-            console.log(string.length)
             if (string.length !== 0) {
                 if (string.charAt(string.length - 1) !== '?') {
                     string = string + '?'
@@ -42,14 +40,15 @@ export default {
                 this.$store.dispatch('createQuestion', this.capitalize(string))
                 this.$refs.createForm.querySelector('button').innerHTML = 'Thanks!'
             } else {
-                console.log('no input')
+                this.$refs.createForm.querySelector('input').placeholder = 'You forgot your question!'
             }
+            this.resetForm()
         },
         resetForm () {
             setTimeout(() => {
                 this.$refs.createForm.querySelector('input').value = ''
                 this.$refs.createForm.querySelector('button').innerHTML = 'Submit'
-            }, 250)
+            }, 4000)
         },
         openSubmit () {
             this.$store.dispatch('toggleSubmit')
@@ -106,6 +105,7 @@ export default {
     }
 
     input {
+        transition: all .3s ease-in-out;
         height: 3rem;
         width: 100%;
         margin: 0 auto;

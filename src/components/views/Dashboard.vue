@@ -1,9 +1,9 @@
 <template>
     <div :class="this.$options.name">
 
-        <transition name="slider-slide-out">
+        <!-- <transition name="slider-slide-out">
             <on-boarding v-if="!isOnboardingComplete"></on-boarding>
-        </transition>
+        </transition> -->
 
         <all-answers
             :class="{ '-hidden': !isMenuOpen }">
@@ -45,7 +45,6 @@
 </template>
 
 <script>
-// import differenceBy from 'lodash.differenceby'
 
 export default {
     name: 'dashboard',
@@ -98,8 +97,10 @@ export default {
             this.containerWidth = `${window.getComputedStyle(this.$refs.containerOuter, null).width}`
         },
         getFinalList () {
-            let list = this._.differenceBy(this.questionList, this.questionsAnswered, '_id')
-            this.finalList = this._.shuffle(list)
+            const differenceWith = (arr, val, comp) => arr.filter(a => val.findIndex(b => comp(a, b)) === -1)
+            const shuffleArray = arr => arr.sort(() => Math.random() - 0.5)
+            let list = differenceWith(this.questionList, this.questionsAnswered, (a, b) => a._id === b._id)
+            this.finalList = shuffleArray(list)
         }
     },
     activated () {
