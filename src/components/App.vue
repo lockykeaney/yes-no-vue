@@ -29,11 +29,7 @@ export default {
             this.fixFocusableSvgs()
         })
 
-        fetch(env.DATA_SOURCE)
-            .then(response => response.json())
-            .then((data) => {
-                this.$store.dispatch('getQuestionData', data)
-            })
+        this.$store.dispatch('fetchQuestionData')
 
         this.getLocalStorage()
     },

@@ -27,6 +27,9 @@ export default {
     computed: {
         isSubmitOpen () {
             return this.$store.getters.isSubmitOpen
+        },
+        postSuccess () {
+            return this.$store.getters.getPostSuccess
         }
     },
     methods: {
@@ -60,12 +63,18 @@ export default {
         capitalize (val) {
             return val.charAt(0).toUpperCase() + val.slice(1)
         }
+    },
+    watch: {
+        postSuccess: () => {
+            console.log('failed to post')
+        }
     }
 }
 </script>
 
 <style lang="scss" scoped>
 @import '../../assets/sass/tools';
+
 .create-question {
     padding: 1rem;
     transition: transform .4s ease-in-out;

@@ -11,8 +11,25 @@
 
         <content-area valign="middle" class="main-wrapper">
 
+            <!-- <div class="container" v-if="!fetchSuccess">
+                <p>Connection error</p>
+            </div> -->
+
             <div class="container" ref="containerOuter">
-                <div v-if="finalList.length !== 0" class="-inner" ref="containerInner">
+                
+
+                <div class="no-questions" v-if="!fetchSuccess">
+                    <p>Connection Error</p>
+                    <button
+                        @click="refreshConnection">
+                        Refresh
+                    </button>
+                </div>
+                <div class="no-questions" v-else-if="finalList.length === 0">
+                    <p>No more questions</p>
+                    <p>Why not submit one below?</p>
+                </div>
+                <div v-else class="-inner" ref="containerInner">
                     <single-question
                         v-for="(item, index) in finalList"
                         :key="index"
@@ -20,10 +37,6 @@
                         :containerWidth="containerWidth"
                         :questionsAnswered="questionsAnswered">
                     </single-question>
-                </div>
-                <div class="no-questions" v-else>
-                    <p>No more questions</p>
-                    <p>Why not submit one below?</p>
                 </div>
             </div>
 
@@ -80,6 +93,9 @@ export default {
         },
         isNextButtonVisible () {
             return this.$store.getters.isNextButtonVisible
+        },
+        fetchSuccess () {
+            return this.$store.getters.getFetchSuccess
         }
     },
     methods: {
@@ -101,6 +117,9 @@ export default {
             const shuffleArray = arr => arr.sort(() => Math.random() - 0.5)
             let list = differenceWith(this.questionList, this.questionsAnswered, (a, b) => a._id === b._id)
             this.finalList = shuffleArray(list)
+        },
+        refreshConnection () {
+            this.$store.dispatch('fetchQuestionData')
         }
     },
     activated () {
