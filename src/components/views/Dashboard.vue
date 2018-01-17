@@ -1,9 +1,9 @@
 <template>
     <div :class="this.$options.name">
 
-        <!-- <transition name="slider-slide-out">
+        <transition v-if="environment === 'production'" name="slider-slide-out">
             <on-boarding v-if="!isOnboardingComplete"></on-boarding>
-        </transition> -->
+        </transition>
 
         <all-answers
             :class="{ '-hidden': !isMenuOpen }">
@@ -11,12 +11,7 @@
 
         <content-area valign="middle" class="main-wrapper">
 
-            <!-- <div class="container" v-if="!fetchSuccess">
-                <p>Connection error</p>
-            </div> -->
-
             <div class="container" ref="containerOuter">
-                
 
                 <div class="no-questions" v-if="!fetchSuccess">
                     <p>Connection Error</p>
@@ -76,6 +71,9 @@ export default {
         }
     },
     computed: {
+        environment () {
+            return process.env.NODE_ENV
+        },
         questionList () {
             return this.$store.getters.getQuestions
         },

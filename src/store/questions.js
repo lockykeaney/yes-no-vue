@@ -14,7 +14,7 @@ const getters = {
 
 const actions = {
     createQuestion ({ commit, state }, question) {
-        fetch('http://localhost:5678/new', {
+        fetch(`${env.DATA_SOURCE}/new`, {
             method: 'POST',
             mode: 'cors',
             headers: {
@@ -35,7 +35,7 @@ const actions = {
             })
     },
     fetchQuestionData ({ commit, state }) {
-        fetch('http://localhost:5678/all')
+        fetch(`${env.DATA_SOURCE}/all`)
             .then((response) => {
                 if (!response.ok) {
                     throw Error(response.statusText)
@@ -51,13 +51,13 @@ const actions = {
             })
     },
     voteYes ({ commit, state }, id) {
-        fetch(`http://localhost:5678/${id}/yesVote`, {
+        fetch(`${env.DATA_SOURCE}/${id}/yesVote`, {
             method: 'POST'
         })
             .then(commit('VOTE_YES', id))
     },
     voteNo ({ commit, state }, id) {
-        fetch(`http://localhost:5678/${id}/noVote`, {
+        fetch(`${env.DATA_SOURCE}/${id}/noVote`, {
             method: 'POST'
         })
             .then(commit('VOTE_NO', id))

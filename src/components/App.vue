@@ -43,9 +43,7 @@ export default {
             for (let i = 0; i < svgsToFix.length; i++) svgsToFix[i].setAttribute('focusable', 'false')
         },
         getLocalStorage () {
-            if (store.get('questionsAnswered') === undefined) {
-                console.log('no store')
-            } else {
+            if (store.get('questionsAnswered') !== undefined) {
                 store.get('questionsAnswered')
                 this.$store.dispatch('importAnswered', store.get('questionsAnswered'))
             }

@@ -21,7 +21,6 @@
 export default {
     name: 'create-question',
     components: {
-        'text-input': require('@/components/partials/TextInput').default,
         'close-button': require('@/components/partials/CloseButton').default
     },
     computed: {
