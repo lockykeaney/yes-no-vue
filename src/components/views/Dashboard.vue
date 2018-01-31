@@ -14,7 +14,7 @@
             <div class="container" ref="containerOuter">
 
                 <div class="no-questions" v-if="!fetchSuccess">
-                    <p>Connection Error</p>
+                    <p ref="connectionError">Connection Error</p>
                     <button
                         @click="refreshConnection">
                         Refresh
@@ -94,6 +94,9 @@ export default {
         },
         fetchSuccess () {
             return this.$store.getters.getFetchSuccess
+        },
+        isFetching () {
+            return this.$store.getters.getIsFetching
         }
     },
     methods: {
@@ -117,7 +120,12 @@ export default {
             this.finalList = shuffleArray(list)
         },
         refreshConnection () {
+            console.log('refreshing')
+            // this.$store.dispatch('fetchTest')
             this.$store.dispatch('fetchQuestionData')
+            // if (this.isFetching === true) {
+            //     this.$refs.connectionError.innerHTML = 'Loading'
+            // }
         }
     },
     activated () {
@@ -125,6 +133,16 @@ export default {
     },
     mounted () {
         this.getFinalList()
+    },
+    watch: {
+        isFetching: function () {
+            if (this.isFetching === true) {
+                this.$refs.connectionError.innerHTML = 'Loading'
+            }
+            if (this.isFetching === false) {
+                this.$refs.connectionError.innerHTML = 'Connection Error'
+            }
+        }
     }
 }
 </script>

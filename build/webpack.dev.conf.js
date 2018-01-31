@@ -9,6 +9,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const DashboardPlugin = require('webpack-dashboard/plugin')
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const Jarvis = require('webpack-jarvis');
 
 // add hot-reload related code to entry chunks
 Object.keys(baseWebpackConfig.entry).forEach(function(name) {
@@ -38,6 +39,9 @@ module.exports = merge(baseWebpackConfig, {
             inject: true
         }, config.template)),
         new FriendlyErrorsPlugin(),
-        new BundleAnalyzerPlugin()
+        new BundleAnalyzerPlugin(),
+        new Jarvis({
+            port: 1337
+          })
     ]
 })

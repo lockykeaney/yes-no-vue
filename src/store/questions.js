@@ -2,18 +2,21 @@ const state = {
     questionList: [],
     questionsAnswered: [],
     fetchSuccess: null,
+    isFetching: false,
     postSuccess: null
 }
 
 const getters = {
     getQuestions: state => state.questionList,
     getQuestionsAnswered: state => state.questionsAnswered,
+    getIsFetching: state => state.isFetching,
     getFetchSuccess: state => state.fetchSuccess,
     getPostSuccess: state => state.postSuccess
 }
 
 const actions = {
     createQuestion ({ commit, state }, question) {
+        commit('SET_IS_FETCHING_TRUE')
         fetch(`${env.DATA_SOURCE}/new`, {
             method: 'POST',
             mode: 'cors',
@@ -29,12 +32,23 @@ const actions = {
                     throw Error(response.statusText)
                 }
             })
-            .then(commit('CREATE_QUESTION', question))
+            .then(() => {
+                commit('CREATE_QUESTION', question)
+                commit('SET_IS_FETCHING_FALSE')
+            })
             .catch(() => {
                 commit('POST_FAILED')
+                commit('SET_IS_FETCHING_FALSE')
             })
     },
+    fetchTest ({ commit, state }) {
+        commit('SET_IS_FETCHING_TRUE')
+        setTimeout(() => {
+            commit('SET_IS_FETCHING_FALSE')
+        }, 1500)
+    },
     fetchQuestionData ({ commit, state }) {
+        commit('SET_IS_FETCHING_TRUE')
         fetch(`${env.DATA_SOURCE}/all`)
             .then((response) => {
                 if (!response.ok) {
@@ -45,22 +59,34 @@ const actions = {
             .then(response => response.json())
             .then((response) => {
                 commit('FETCH_QUESTION_DATA', response)
+                commit('SET_IS_FETCHING_FALSE')
             })
             .catch(() => {
                 commit('FETCH_FAILED')
+                commit('SET_IS_FETCHING_FALSE')
             })
     },
     voteYes ({ commit, state }, id) {
+        commit('SET_IS_FETCHING_TRUE')
         fetch(`${env.DATA_SOURCE}/${id}/yesVote`, {
             method: 'POST'
         })
             .then(commit('VOTE_YES', id))
+            .catch(() => {
+                commit('FETCH_FAILED')
+                commit('SET_IS_FETCHING_FALSE')
+            })
     },
     voteNo ({ commit, state }, id) {
+        commit('SET_IS_FETCHING_TRUE')
         fetch(`${env.DATA_SOURCE}/${id}/noVote`, {
             method: 'POST'
         })
             .then(commit('VOTE_NO', id))
+            .catch(() => {
+                commit('FETCH_FAILED')
+                commit('SET_IS_FETCHING_FALSE')
+            })
     },
     answerQuestion ({ commit, state }, id) {
         commit('ANSWER_QUESTION', id)
@@ -84,6 +110,12 @@ const mutations = {
     ['FETCH_QUESTION_DATA'] (state, questionData) {
         state.questionList = questionData
         state.fetchSuccess = true
+    },
+    ['SET_IS_FETCHING_TRUE'] (state) {
+        state.isFetching = true
+    },
+    ['SET_IS_FETCHING_FALSE'] (state) {
+        state.isFetching = false
     },
     ['FETCH_FAILED'] (state) {
         state.fetchSuccess = false

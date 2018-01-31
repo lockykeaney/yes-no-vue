@@ -16,6 +16,7 @@
                     class="button"
                     :disabled="isAnswered"
                     :class="{ '-choice': thisAnswer === 'yes' }"
+                    data-micron="bounce"
                     @click="clickHandler(item, 'yes')">
                     Yes
                 </button>
@@ -26,6 +27,7 @@
                     class="button"
                     :disabled="isAnswered"
                     :class="{ '-choice': thisAnswer === 'no' }"
+                    data-micron="bounce"
                     @click="clickHandler(item, 'no')">
                     No
                 </button>
