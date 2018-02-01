@@ -36,7 +36,7 @@
     </div>
 </template>
 
-<script lang="ts">
+<script>
 import store from 'store'
 
 export default {

@@ -8,7 +8,7 @@
     </div>
 </template>
 
-<script lang="ts">
+<script>
 import _debounce from 'lodash.debounce'
 import store from 'store'
 
