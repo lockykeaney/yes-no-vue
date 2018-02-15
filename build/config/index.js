@@ -31,8 +31,8 @@ for (let i = 0; i < locales.length; i++) intl.push('Intl.~locale.' + locales[i].
 
 // template vars
 let template = { env: dotenv }
-    template = assign(template, { intl: intl.join(','), iso: dotenv.LOCALE_ACTIVE.split('-')[0] })
-    template = assign(template, JSON.parse(mainLocale))
+template = assign(template, { intl: intl.join(','), iso: dotenv.LOCALE_ACTIVE.split('-')[0] })
+template = assign(template, JSON.parse(mainLocale))
 
 module.exports = {
     env: env,

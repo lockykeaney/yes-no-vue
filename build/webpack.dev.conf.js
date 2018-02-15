@@ -40,8 +40,8 @@ module.exports = merge(baseWebpackConfig, {
         }, config.template)),
         new FriendlyErrorsPlugin(),
         new BundleAnalyzerPlugin(),
-        new Jarvis({
-            port: 1337
-          })
+        // new Jarvis({
+        //     port: 1337
+        //   })
     ]
 })

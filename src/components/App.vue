@@ -53,7 +53,7 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../assets/sass/app';
+// @import '../assets/sass/app';
 
 #app {
     position: absolute;

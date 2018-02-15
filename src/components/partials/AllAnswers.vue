@@ -8,7 +8,9 @@
 
         <close-button @click.native="toggleMenu"></close-button>
 
-        <div v-if="questionsAnswered !== 0">
+        <div 
+            class="wrapper"
+            v-if="questionsAnswered !== 0">
             <div
                 v-for="(answer, index) in questionsAnswered"
                 :key="index">
@@ -75,7 +77,13 @@ export default {
     color: map-get($colors, white);
     z-index: 10;
     transform: translateX(0%);
-    // box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    @include gridle_state(tablet) {
+        width: 25rem;
+    }
+
+    .wrapper {
+        overflow-y: scroll;
+    }
 
     .close-menu {
         position: absolute;
@@ -113,6 +121,9 @@ export default {
 
     &.-hidden {
         transform: translateX(-100%);
+        @include gridle_state(tablet) {
+            transform: translateX(0%);
+        }
     }
 
     .percent-bar {

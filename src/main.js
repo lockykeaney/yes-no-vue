@@ -39,6 +39,12 @@ Object.defineProperties(Vue.prototype, {
 // sync the router with the vuex store
 sync(store, router)
 
+// require sass/css framework
+require('./assets/sass/reboot.scss')
+require('./assets/sass/bulma.scss')
+require('./assets/sass/app.scss')
+require('./assets/sass/tools.scss')
+
 // create the Vue instance
 /* eslint-disable no-new */
 new Vue({

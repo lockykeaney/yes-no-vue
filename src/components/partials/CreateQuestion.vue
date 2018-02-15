@@ -32,8 +32,11 @@ export default {
         }
     },
     methods: {
+        // create function to login
+        // create function to sign up
         submitQuestion (e) {
             e.preventDefault()
+            // check if the user is logged in
             let string = this.$refs.askQuestion.value
             if (string.length !== 0) {
                 if (string.charAt(string.length - 1) !== '?') {
